@@ -1,0 +1,42 @@
+# -------------------------- CONTEXT -------------------------- #
+server:
+  port: ${port:8080}
+
+env: ${app.env:local}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+
+# --------------------------- Database --------------------------- #
+spring.r2dbc:
+  url: r2dbc:postgresql://postgres:postgres@localhost:5432/postgres
+  initialization-mode: always
+
+
+spring.jpa.hibernate:
+  show-sql: true
+  ddl-auto: create-drop
+spring:
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        temp:
+          use_jdbc_metadata_defaults: false
+        naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
+
+# -------------------------- SECURITY -------------------------- #
+jwt:
+  secret: OneNotReallyGoodSecret
+
+# -------------------------- LOGGING -------------------------- #
+logging:
+  level:
+    org.springframework: INFO
+    root: INFO
+    com.joserobertofilho: INFO
+  pattern:
+    console: '%d{yyyy-MM-dd HH:mm:ss,SSS} [%-9.9t] [%-5p] [%-30c{1}] - %X{mdcData}%m%n'
